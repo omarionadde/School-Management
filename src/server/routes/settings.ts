@@ -1,8 +1,21 @@
 import { Router } from 'express';
 import db from '../../db/init';
 import bcrypt from 'bcryptjs';
+import multer from 'multer';
+import path from 'path';
 
 const router = Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'school-logo' + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
 
 // --- System Users Management ---
 
@@ -103,6 +116,19 @@ router.put('/school', (req, res) => {
     res.json({ message: 'Settings updated' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to update settings' });
+  }
+});
+
+router.post('/school/logo', upload.single('logo'), (req: any, res: any) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  const logoUrl = `/uploads/${req.file.filename}`;
+  try {
+    db.prepare('UPDATE school_settings SET school_logo = ? WHERE id = 1').run(logoUrl);
+    res.json({ message: 'Logo updated', logoUrl });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update logo' });
   }
 });
 

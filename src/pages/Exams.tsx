@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, FileText, Award } from 'lucide-react';
+import { Plus, FileText, Award, X } from 'lucide-react';
 import { clsx } from 'clsx';
 
 export default function Exams() {
@@ -307,13 +307,5 @@ export default function Exams() {
         </div>
       )}
     </div>
-  );
-}
-
-function X({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-    </svg>
   );
 }

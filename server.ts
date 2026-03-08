@@ -16,6 +16,7 @@ import examRoutes from './src/server/routes/exams';
 import announcementRoutes from './src/server/routes/announcements';
 import expenseRoutes from './src/server/routes/expenses';
 import parentRoutes from './src/server/routes/parents';
+import notificationRoutes from './src/server/routes/notifications';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,6 +28,13 @@ async function startServer() {
   initializeDatabase();
 
   app.use(express.json());
+
+  // Serve uploaded files
+  const uploadsDir = path.join(__dirname, 'uploads');
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+  }
+  app.use('/uploads', express.static(uploadsDir));
 
   // API Routes
   app.use('/api/auth', authRoutes);
@@ -41,6 +49,7 @@ async function startServer() {
   app.use('/api/exams', examRoutes);
   app.use('/api/announcements', announcementRoutes);
   app.use('/api/expenses', expenseRoutes);
+  app.use('/api/notifications', notificationRoutes);
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production') {

@@ -95,6 +95,27 @@ export default function Settings() {
     alert('School settings updated successfully!');
   };
 
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    
+    const formData = new FormData();
+    formData.append('logo', e.target.files[0]);
+
+    try {
+      const res = await fetch('/api/settings/school/logo', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSchoolSettings(prev => ({ ...prev, school_logo: data.logoUrl }));
+        alert('Logo updated successfully!');
+      }
+    } catch (error) {
+      console.error('Failed to upload logo', error);
+    }
+  };
+
   const handleCreateHoliday = async (e: React.FormEvent) => {
     e.preventDefault();
     await fetch('/api/settings/holidays', {
@@ -190,14 +211,24 @@ export default function Settings() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Logo URL</label>
-              <input
-                type="text"
-                placeholder="https://..."
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                value={schoolSettings.school_logo || ''}
-                onChange={e => setSchoolSettings({...schoolSettings, school_logo: e.target.value})}
-              />
+              <label className="block text-sm font-medium text-slate-700 mb-1">School Logo</label>
+              <div className="flex items-center gap-4">
+                {schoolSettings.school_logo && (
+                  <img src={schoolSettings.school_logo} alt="School Logo" className="h-16 w-16 object-contain border rounded-lg bg-slate-50" />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoUpload}
+                  className="block w-full text-sm text-slate-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-700
+                    hover:file:bg-blue-100
+                  "
+                />
+              </div>
             </div>
             <div className="pt-4">
               <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">

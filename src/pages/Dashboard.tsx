@@ -2,6 +2,7 @@ import { useAuth } from '../context/AuthContext';
 import AdminDashboard from './AdminDashboard';
 import StudentDashboard from './StudentDashboard';
 import ParentDashboard from './ParentDashboard';
+import TeacherDashboard from './TeacherDashboard';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -14,6 +15,10 @@ export default function Dashboard() {
     return <ParentDashboard />;
   }
 
-  // Admin, Teacher, Accountant see the main dashboard
+  if (user?.role === 'teacher') {
+    return <TeacherDashboard />;
+  }
+
+  // Admin, Accountant see the main dashboard
   return <AdminDashboard />;
 }
