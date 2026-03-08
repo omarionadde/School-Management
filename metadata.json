@@ -1,0 +1,5 @@
+{
+  "name": "School Management System",
+  "description": "A comprehensive, role-based school management system for admins, teachers, students, and parents.",
+  "requestFramePermissions": []
+}

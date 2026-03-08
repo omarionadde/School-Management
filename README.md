@@ -1,11 +1,27 @@
-<div align="center">
+# School Management System
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A comprehensive, role-based school management system.
 
-  <h1>Built with AI Studio</h2>
+## Features
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **Admin Dashboard**: Overview of school stats.
+- **Student Management**: Add, edit, list students.
+- **Teacher Management**: Add, list teachers.
+- **Attendance**: Mark and view daily attendance.
+- **Fees & Finance**: Manage student fees and invoices.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Getting Started
 
-</div>
+1.  The application uses a local SQLite database (`school.db`).
+2.  An admin user is seeded automatically on first run.
+
+### Default Credentials
+
+-   **Email**: `admin@school.com`
+-   **Password**: `admin123`
+
+## Tech Stack
+
+-   **Frontend**: React, Tailwind CSS, Recharts
+-   **Backend**: Express, Better-SQLite3
+-   **Auth**: JWT
